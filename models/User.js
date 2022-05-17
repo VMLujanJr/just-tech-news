@@ -2,7 +2,7 @@ const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection.js');
 
 // create our User model
-class User extends Model{}
+class User extends Model {}
 
 // define table columns and configuration
 User.init(
@@ -66,3 +66,5 @@ User.init(
         modelName: 'user'
     }
 );
+
+module.exports = User;

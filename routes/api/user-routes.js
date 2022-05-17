@@ -1,21 +1,23 @@
 const router = require('express').Router();
-const req = require('express/lib/request');
 const { User } = require('../../models');
 
 // GET /api/users
 router.get('/', (req, res) => {
     // Access our User model and run .findAll() method
-    User.findAll() // findAll() is the Model's class's method... similar to SELECT * FROM users;
-        .then(dbUserData => res.json(dbUserData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+    User.findAll({
+        attributes: { exclude: ['password'] }
+    }) // findAll() is the Model's class's method... similar to SELECT * FROM users;
+    .then(dbUserData => res.json(dbUserData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
 
 // GET /api/users/1
 router.get('/:id', (req, res) => {
     User.findOne({
+        attributes: { exclude: ['password'] },
         where: { // SELECT * FROM users WHERE id = 1;
             id: req.params.id
         }
@@ -86,7 +88,7 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE /api/users/1
-router.delete('/:id', (res, res) => {
+router.delete('/:id', (req, res) => {
     User.destroy({
         where: {
             id: req.params.id
