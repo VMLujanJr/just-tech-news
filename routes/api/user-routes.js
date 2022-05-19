@@ -70,6 +70,7 @@ router.put('/:id', (req, res) => {
     WHERE id = 1;
     */
     User.update(req.body, {
+        individualHooks: true,
         where: {
             id: req.params.id
         }
