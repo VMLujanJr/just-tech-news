@@ -58,6 +58,32 @@ router.post('/', (req, res) => {
     });
 });
 
+router.post('/login', (req, res) => {
+    // query operation = asking question
+    // expects { email: 'vmlujanjr@outlook.com', password: 'pass123' }
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    })
+    .then(dbUserData => {
+        if (!dbUserData) {
+            res.status(400).json({ message: 'No user with that email exists!' });
+            return;
+        }
+        
+        // verify user
+        const validPassword = dbUserData.checkPassword(req.body.password); // checkPassword function was created in models/user.js
+
+        // if verify user returns a boolean...
+        if (!validPassword) {
+            res.status(400).json({ message: 'The password was incorrect!' });
+            return;
+        }
+        res.json({ user: dbUserData, message: ' you are now logged in!' });
+    });
+});
+
 // PUT /api/users/1
 router.put('/:id', (req, res) => {
     // expects { username: 'Victor', email: 'vmlujanjr@outlook.com', password: 'pass123' }
