@@ -16,6 +16,7 @@ const router = require('express').Router();
     });
 }); */
 
+// our post needs variables...
 router.get('/', (req, res) => {
     Post.findAll({
         attributes: [
@@ -52,6 +53,21 @@ router.get('/', (req, res) => {
         console.log(err);
         res.status(500).json(err);
     });
+});
+
+// our login doesn't need any variables...
+router.get('/login', (req, res) => {
+    if (req.session.loggedIn) {
+        res.redirect('/');
+        return;
+    }
+    res.render('login');
+});
+
+// console log session variables
+router.get('/', (req, res) => {
+    console.log(req.session);
+    // other logic...
 });
 
 module.exports = router;
