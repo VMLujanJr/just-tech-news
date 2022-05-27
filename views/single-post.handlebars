@@ -21,18 +21,7 @@
     </div>
 </form>
 {{/if}}
-<div class="comment">
-    {{#each post.comments }} {{!-- ...you could also add {{#each post.comments as |comment|}} --}}
-    <section>
-        <div class="meta">
-            {{ user.username }} on {{ created_at }}
-        </div>
-        <div class="text">
-            {{ comment_text }}
-        </div>
-    </section>
-    {{/each}}
-</div>
+{{> comments post.comments}}
 {{#if loggedIn }}
 <script src="/assets/js/comment.js"></script>
 <script src="/assets/js/upvote.js"></script>
