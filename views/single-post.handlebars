@@ -1,0 +1,28 @@
+<article>
+    <div class="title">
+        <a href="{{ post.post_url }}" target="_blank">{{ post.title }}</a>
+        <span>({{ format_url post.post_url }})</span> {{!-- helper 'format_url' --}}
+    </div>
+    <div class="meta">
+        {{ post.vote_count }} {{format_plural 'point' vote_count }} by {{ post.user.username }} on {{!-- helper 'format_plural' --}}
+        {{ format_date post.created_at }} {{!-- helper 'format_date' --}}
+        |
+        <a href="/post/{{ post.id }}">{{ post.comments.length }} {{format_plural 'comment' comments.length }}</a> {{!-- helper 'format_plural' --}}
+    </div>
+</article>
+{{#if loggedIn }}
+<form class="comment-form">
+    <div>
+        <textarea name="comment-body"></textarea>
+    </div>
+    <div>
+        <button type="submit">add comment</button>
+        <button type="button" class="upvote-btn">upvote</button>
+    </div>
+</form>
+{{/if}}
+{{> comments post.comments}}
+{{#if loggedIn }}
+<script src="/assets/js/comment.js"></script>
+<script src="/assets/js/upvote.js"></script>
+{{/if}}
